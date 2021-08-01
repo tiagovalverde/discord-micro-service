@@ -1,28 +1,28 @@
+from discord import InvalidArgument
+from discord.errors import HTTPException
 import requests
-from discord import Webhook, RequestsWebhookAdapter
+
+from helpers.app_helper import logger
 
 from flask_apispec import use_kwargs, marshal_with
 from flask_apispec.views import MethodResource
 from api.schemas.messages_schemas import MessageRequestSchema, MessageResponseSchema
 
+from services.discord_webhook import DiscordWebHook
+
 
 @marshal_with(MessageRequestSchema)
 class MessageResource(MethodResource):
-
     @use_kwargs(MessageRequestSchema)
     @marshal_with(MessageResponseSchema)
     def post(self, **kwargs):
-      # TODO: allow api requester to indicate channel to send message through 'channel_name' 
-      # TODO: catch exceptions when 'from_url' throws an exception
-      webhook = Webhook.from_url(
-        url="https://discord.com/api/webhooks/871370704459792394/UDIw8stmLixE8TNQHhjujj-2ZajGmE0yOciBUt0KPHapnTIPrlhqwiuTarbdxiFQEvc-",
-        adapter=RequestsWebhookAdapter()
-      )
-
-      result = webhook.send(kwargs["message"])
-
-      print(kwargs)
-      print(result)
-      return {
-        "message": "message sent!"
-      }
+        try:
+            webhook = DiscordWebHook.from_url(kwargs["channel_name"])
+            webhook.send(kwargs["message"])
+            return {"message": "Message sent!"}, 200
+        except KeyError:
+            logger.warning(f"Channel {kwargs['channel_name']} not found!")
+            return {"message": f"Channel {kwargs['channel_name']} not found!"}, 400
+        except (InvalidArgument, HTTPException):
+            logger.error("Invalid webhook URL given!")
+            return {"message": "Server Error"}, 500

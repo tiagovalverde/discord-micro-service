@@ -1,0 +1,5 @@
+# Code Styling
+black~=21.7b0
+
+# Pre-commit hooks
+pre-commit~=2.13.0
