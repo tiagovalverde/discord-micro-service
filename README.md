@@ -9,6 +9,13 @@ source `venv/bin/activate`
 
 For now: `python -m flask run`
 
+
+## Docker
+
+`docker build -t tiagovalverde/discord-micro-service:v1 .`
+`docker run -p 5000:5050 <id>`
+
+
 ### TODO
 
 - [x] Setup Discord connection

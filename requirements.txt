@@ -24,3 +24,6 @@ urllib3==1.26.6
 webargs==8.0.0
 Werkzeug==2.0.1
 yarl==1.6.3
+
+# deployment
+gunicorn==20.0.4
