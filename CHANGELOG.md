@@ -13,7 +13,6 @@ Summary of release changes.
 - API endpoint `POST /api/messages` to send messages to channels
 - dev packages to style code
 
-
-# 2021-07-XX: v0.0.2
+# 2021-07-02: v0.0.1
 - api token authentication
 

@@ -7,6 +7,7 @@ from helpers.app_helper import logger
 from flask_apispec import use_kwargs, marshal_with
 from flask_apispec.views import MethodResource
 from api.schemas.messages_schemas import MessageRequestSchema, MessageResponseSchema
+from api.decorators.authentication import authenticated
 
 from services.discord_webhook import DiscordWebHook
 
@@ -15,6 +16,7 @@ from services.discord_webhook import DiscordWebHook
 class MessageResource(MethodResource):
     @use_kwargs(MessageRequestSchema)
     @marshal_with(MessageResponseSchema)
+    @authenticated
     def post(self, **kwargs):
         try:
             webhook = DiscordWebHook.from_url(kwargs["channel_name"])
