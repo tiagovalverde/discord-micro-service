@@ -6,22 +6,23 @@ from helpers.app_helper import logger
 
 from api.blueprints.messages import MessageResource
 
-# load environment variables
-load_dotenv()
 
-# init flask
-app = Flask(__name__)
+def create_app():
+    # load environment variables
+    load_dotenv()
 
-# register api endpoints
-blueprint = Blueprint("messages", __name__, url_prefix="/api")
-app.add_url_rule(
-    "/api/messages", view_func=MessageResource.as_view("messages"), methods=["POST"]
-)
-app.register_blueprint(blueprint)
+    # init flask
+    app = Flask(__name__)
 
-# add endpoints to swagger
-docs = FlaskApiSpec(app)
-docs.register(MessageResource, endpoint="messages")
+    # register api endpoints
+    blueprint = Blueprint("messages", __name__, url_prefix="/api")
+    app.add_url_rule(
+        "/api/messages", view_func=MessageResource.as_view("messages"), methods=["POST"]
+    )
+    app.register_blueprint(blueprint)
 
-if __name__ == "__main__":
-    app.run()
+    # add endpoints to swagger
+    docs = FlaskApiSpec(app)
+    docs.register(MessageResource, endpoint="messages")
+
+    return app

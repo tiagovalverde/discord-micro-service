@@ -7,13 +7,15 @@ source `venv/bin/activate`
 
 ### Run
 
-For now: `python -m flask run`
-
+```
+export FLASK_APP=app.py
+flask run
+```
 
 ## Docker
 
 `docker build -t tiagovalverde/discord-micro-service:v1 .`
-`docker run -p 5000:5050 <id>`
+`docker run -p 5050:5000 <id>`
 
 
 ### TODO
